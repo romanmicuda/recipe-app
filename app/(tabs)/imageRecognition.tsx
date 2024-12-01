@@ -3,9 +3,34 @@ import { Stack } from "expo-router";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import * as tf from "@tensorflow/tfjs";
+import { cameraWithTensors } from "@tensorflow/tfjs-react-native";
+import * as mobilenet from "@tensorflow-models/mobilenet";
+
 export default function imageRecognition() {
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
+
+  const TensorCamera = cameraWithTensors(CameraView);
+
+  const handleCameraStream = async (images: any) => {
+    console.log("Camera stream started");
+    const model = await tf.loadGraphModel(
+      "https://www.kaggle.com/models/google/mobilenet-v2/TfJs/035-128-classification/3",
+      { fromTFHub: true }
+    );
+
+    const loop = async () => {
+      const nextImageTensor = images.next().value;
+      if (nextImageTensor) {
+        const predictions = await model.predict(nextImageTensor);
+        console.log("Predictions:", predictions);
+        tf.dispose([nextImageTensor]);
+      }
+      requestAnimationFrame(loop);
+    };
+    loop();
+  };
 
   if (!permission) {
     return <View />;
@@ -44,6 +69,9 @@ export default function imageRecognition() {
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
             <Text style={styles.text}>Flip Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleCameraStream}>
+            <Text style={styles.text}>Detect Ingredients</Text>
           </TouchableOpacity>
         </View>
       </CameraView>
