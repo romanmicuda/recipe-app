@@ -6574,7 +6574,7 @@ ms@2.1.3, ms@^2.1.1, ms@^2.1.3:
     expo-symbols "~0.2.0"
     expo-system-ui "~4.0.4"
     expo-web-browser "~14.0.1"
-    my-app "file:../../../../AppData/Local/Yarn/Cache/v6/npm-my-app-1.0.0-c645877c-c357-47b3-94db-391e24db7710-1733076975650/node_modules/my-app"
+    my-app "file:../../../../AppData/Local/Yarn/Cache/v6/npm-my-app-1.0.0-1a152159-4279-4cff-a6c0-928be12e0410-1733077859501/node_modules/my-app"
     nativewind "^4.1.23"
     react "18.3.1"
     react-dom "18.3.1"
