@@ -8,14 +8,18 @@ export default function imageRecognition() {
   const [permission, requestPermission] = useCameraPermissions();
 
   if (!permission) {
-    // Camera permissions are still loading.
     return <View />;
   }
 
   if (!permission.granted) {
-    // Camera permissions are not granted yet.
     return (
       <View>
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: "Image Recognition",
+          }}
+        />
         <Text className="m-5">We need your permission to show the camera</Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
